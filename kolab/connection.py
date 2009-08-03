@@ -23,7 +23,9 @@ class Connection:
         
 
     def disconnect(self):
-        pass
+        self.imap.logout()  
     
-def connect(self, username, password, server, port=None,  use_ssl=False):
-    return Connection()
+def connect(username, password, server, port=None,  use_ssl=False):
+    con = Connection()
+    con.connect(username, password, server, port, use_ssl)
+    return con

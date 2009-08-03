@@ -1,2 +1,2 @@
-from connection import Connection
-from connection import connect
+from kolab.connection import Connection
+from kolab.connection import connect

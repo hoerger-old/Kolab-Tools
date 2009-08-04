@@ -36,17 +36,48 @@ class KolabDate(datetime.date):
     def toKolab(self):
         return str(self.isoformat())
 
-class KolabDateTime:
-    pass
+class KolabDateTime(datetime.datetime):
+    def __init__(self, *arg):
+        datetime.datetime.__init__(self, *arg)
 
+	@staticmethod
+	def fromKolab(data):
+		return KolabDateTime(datetime.datetime.strptime(data, "%Y-%m-%dT%H:%M:%SZ"))
+
+	def toKolab(self):
+		return self.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+""" #RRGGBB """
 class KolabColor:
-    pass
+	def __init__(self, colorString):
+		r, g, b = colorString[1:3], colorString[3:5], colorString[5:] 
+		self.r, self.g, self.b = [int(n, 16) for n in (r, g ,b)]
 
-class KolabBool:
-    pass
+	@staticmethod
+	def fromKolab(data):
+		return KolabColor(data)
+
+	def toKolab(self):
+		return "#%02x%02x%02x" % (self.r, self.g, self.b) 	
+
+class KolabBool(bool):
+    def __init__(self, *arg):
+        str.__init__(self, *arg)
+    
+    @staticmethod
+    def fromKolab(data):
+		if data == "True":
+			return KolabBool(1)
+		else:
+			return KolabBool(0)
+    
+    def toKolab(self):
+        return str(self).lower()
+
 
 class KolabObject:
-    pass
+    def __init__(self):
+		pass
 
 def createObject(message):
     return KolabObject()

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import datetime
+from xml.etree import cElementTree as ElementTree
+from xml.etree.cElementTree import Element
 
 class KolabString(str):
     def __init__(self, *arg):
@@ -76,8 +78,11 @@ class KolabBool(bool):
 
 
 class KolabObject:
-    def __init__(self):
-		pass
+    def __init__(self, email=None):
+        if email:
+            self.xmlTree(ElementTree.fromstring(email)
+        else:
+	    	pass
 
 def createObject(message):
-    return KolabObject()
+    KolabObject()

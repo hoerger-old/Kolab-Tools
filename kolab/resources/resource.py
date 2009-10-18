@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
 
 class Resource:
+    def __init__(self, folder):
+        self.folder = folder
+
+    def __str__(self):
+        return self.folder
+
     def readAll(self):
         pass
 
@@ -11,4 +17,7 @@ class Resource:
         pass
 
     def writeItem(self):
+        pass
+
+    def listItems(self):
         pass

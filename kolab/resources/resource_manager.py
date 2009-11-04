@@ -32,7 +32,7 @@ class ResourceManager:
         resources = []
 
         for i in self.listResources(type):
-            resources.append(type2resource[type](i))
+            resources.append(type2resource[type](self.connection, i))
 
         return resources
             

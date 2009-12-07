@@ -4,6 +4,13 @@ import datetime
 from xml.etree import cElementTree as ElementTree
 from xml.etree.cElementTree import Element
 
+class KolabObjectFormatError(Exception):
+    def __init__(self, value, objectype):
+        self.value = value
+        self.objecttype=objecttype
+    def __str__(self):
+        return "Error in "+repr(self.objecttype)+": "+repr(self.value)
+
 class KolabString(str):
     def __init__(self, *arg):
         str.__init__(self, *arg)
@@ -27,6 +34,7 @@ class KolabNumber(int):
     def toKolab(self):
         return str(self)
 
+
 class KolabDate(datetime.date):
     def __init__(self, *arg):
         datetime.date.__init__(self, *arg)
@@ -48,6 +56,13 @@ class KolabDateTime(datetime.datetime):
 
 	def toKolab(self):
 		return self.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+#helper functions for fields of type "date or datetime"
+def DateOrDateTime(data):
+    if len(data)>10:
+        return KolabDate.fromKolab(data)
+    else
+        return KolabDateTime.fromKolab(data)
 
 """ #RRGGBB """
 class KolabColor:
@@ -80,9 +95,13 @@ class KolabBool(bool):
 class KolabObject:
     def __init__(self, email=None):
         if email:
-            self.xmlTree(ElementTree.fromstring(email)
+            etree = ElementTree.fromstring(email) 
+            self.xmlTree= etree
+            self.uuid = KolabString(etree.find("uid").text)
+            self.creationDate = KolabDateTime(etree.find("creation-date").text)
+            self.lastModificationDate = KolabDateTime(etree.find("last-modification-date").text)
         else:
-	    	pass
+    	    pass
 
 def createObject(message):
     KolabObject()
